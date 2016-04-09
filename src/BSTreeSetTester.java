@@ -236,22 +236,24 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		throw new IllegalArgumentException();
     	}
     	
-        return subSet(minValue, maxValue, root);
+    	List<K> subSetList = new ArrayList<K>();
+        addToList(minValue, maxValue, root, subSetList);
+        return subSetList;
     }
     
-    private List<K> subSet(K minValue, K maxValue, BSTNode<K> parent) {
-    	List<K> ret = new ArrayList<K>();
+    // TODO - method header
+    private void addToList(K minValue, K maxValue, BSTNode<K> parent, List<K> subSetList) {
+    	// TODO (npetersen): implemented this thing
     	
-    	// TODO (npetersen): yeah idk what to do here...
-    	if (minValue.compareTo(parent.getKey()) < 0){
-    		subSet(minValue, maxValue, parent.getRightChild());
-    	}
-    	else if (maxValue.compareTo(parent.getKey()) > 0){
-    		subSet(minValue, maxValue, parent.getLeftChild());
+    	if (parent.getLeftChild() != null && parent.getLeftChild().getKey().compareTo(minValue) > 0) {
+    		addToList(minValue, maxValue, parent.getLeftChild(), subSetList);
     	}
     	
+    	subSetList.add(parent.getKey());
     	
-    	return null;
+    	if (parent.getRightChild() != null && parent.getRightChild().getKey().compareTo(maxValue) < 0) {
+    		addToList(minValue, maxValue, parent.getRightChild(), subSetList);
+    	}
     }
 
     /**
