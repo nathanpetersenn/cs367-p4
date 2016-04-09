@@ -35,9 +35,10 @@ public class BSTNode<K> {
      * @param k the key
      */
     public BSTNode(K k) {
-        if (k == null){
+        if (k == null) {
             throw new IllegalArgumentException();
         }
+        
         key = k;
         left = right = null;
         height = 1;

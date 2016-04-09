@@ -46,21 +46,85 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @param rbt the rebalance threshold
      */
     public BSTreeSetTester(int rbt) {
-        //TODO
+    	// TODO (npetersen): created this constructor
+        root = null;
+        numKeys = 0;
+        isBalanced = true;
+        rebalanceThreshold = rbt;
     }
 
     /**
      * Add node to binary search tree. Remember to update the height and
-     * balancedFfactor of each node. Also rebalance as needed based on
+     * balancedFactor of each node. Also rebalance as needed based on
      * rebalanceThreshold.
      *
      * @param key the key to add into the BST
      * @throws IllegalArgumentException if the key is null
      * @throws DuplicateKeyException if the key is a duplicate
      */
-    public void add(K key) {
-        //TODO
+	public void add(K key) {
+        // TODO (npetersen): created this method
+    	
+    	if (key == null) throw new IllegalArgumentException();
+    	
+    	if (root == null) {
+    		root = new BSTNode<K>(key);
+    		root.setHeight(1);
+    		root.setBalanceFactor(0);
+    	} else {
+        	add(key, root);
+    	}
     }
+    
+    private void add(K key, BSTNode<K> parent) {
+    	// TODO (npetersen): created this method
+    	
+    	if (parent == null) {
+    		// TODO (npetersen): remove this if statement eventually
+    		// this in theory will never happen... hopefully
+    		throw new RuntimeException("parent was null");
+    	}
+    	
+    	if (parent.getKey().equals(key)) {
+    		// duplicate key entry!
+    		
+    		// TODO (npetersen): this exception doesn't exist...
+    		// not sure if we should make it ourselves
+    		
+    		// throw new DuplicateKeyException();
+    	} else if (parent.getKey().compareTo(key) < 0) {
+    		// parent is smaller than key
+    		
+    		if (parent.getLeftChild() == null) {
+    			BSTNode<K> n = new BSTNode<K>(key);
+    			n.setHeight(parent.getHeight() + 1);
+    			n.setBalanceFactor(parent.getBalanceFactor() + 1);
+    			
+    			parent.setLeftChild(n);
+    			numKeys++;
+    			
+    			if (n.getBalanceFactor() > rebalanceThreshold) rebalance();
+    		} else {
+    			add(key, parent.getLeftChild());
+    		}
+    	} else {
+    		// parent is larger than key
+    		
+    		if (parent.getRightChild() == null) {
+    			BSTNode<K> n = new BSTNode<K>(key);
+    			n.setHeight(parent.getHeight() + 1);
+    			n.setBalanceFactor(parent.getBalanceFactor() + 1);
+    			
+    			parent.setRightChild(n);
+    			numKeys++;
+    			
+    			if (n.getBalanceFactor() > rebalanceThreshold) rebalance();
+    		} else {
+    			add(key, parent.getRightChild());
+    		}
+    	}
+    }
+    
 
     /**
      * Rebalances the tree by:
@@ -69,8 +133,18 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * 2. Rebuilding the tree from the sorted array of keys.
      */
     public void rebalance() {
-        K[] keys = (K[]) new Comparable[numKeys];
-        //TODO
+    	// TODO (npetersen): created this method
+    	
+        @SuppressWarnings("unchecked")
+		K[] keys = (K[]) new Comparable[numKeys];
+        
+        BSTIterator<K> itr = new BSTIterator<K>(root);
+        int i = 0;
+        while (itr.hasNext()) {
+        	keys[i++] = itr.next();
+        }
+        
+        root = sortedArrayToBST(keys, 0, numKeys);
     }
 
     /**
@@ -124,15 +198,19 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @return the iterator
      */
     public Iterator<K> iterator() {
-        //TODO
-        return null;
+        // TODO (npetersen): made this method
+    	
+        return new BSTIterator<K>(root);
     }
 
     /**
      * Clears the tree, i.e., removes all the keys in the tree.
      */
     public void clear() {
-        //TODO
+        // TODO (npetersen): implemented this method
+    	
+    	numKeys = 0;
+    	root = null;
     }
 
     /**
@@ -141,8 +219,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @return the number of keys
      */
     public int size() {
-        //TODO
-        return 0;
+        return numKeys;
     }
 
     /**
