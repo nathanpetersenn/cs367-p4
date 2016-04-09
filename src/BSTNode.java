@@ -34,7 +34,7 @@ public class BSTNode<K> {
      *
      * @param k the key
      */
-    public BSTNode(K k){
+    public BSTNode(K k) {
         if (k == null){
             throw new IllegalArgumentException();
         }
@@ -49,7 +49,7 @@ public class BSTNode<K> {
      *
      * @return the key
      */
-    public K getKey(){
+    public K getKey() {
         return key;
     }
 
@@ -58,7 +58,7 @@ public class BSTNode<K> {
      *
      * @return the left child
      */
-    public BSTNode<K> getLeftChild(){
+    public BSTNode<K> getLeftChild() {
         return left;
     }
 
@@ -67,7 +67,7 @@ public class BSTNode<K> {
      *
      * @return the right child
      */
-    public BSTNode<K> getRightChild(){
+    public BSTNode<K> getRightChild() {
         return right;
     }
 
@@ -76,7 +76,7 @@ public class BSTNode<K> {
      *
      * @return the height
      */
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
@@ -85,7 +85,7 @@ public class BSTNode<K> {
      *
      * @return the balance factor
      */
-    public int getBalanceFactor(){
+    public int getBalanceFactor() {
         return balanceFactor;
     }
 
@@ -94,7 +94,7 @@ public class BSTNode<K> {
      *
      * @param l the left child
      */
-    public void setLeftChild(BSTNode<K> l){
+    public void setLeftChild(BSTNode<K> l) {
         left = l;
     }
 
@@ -102,7 +102,7 @@ public class BSTNode<K> {
      * Set this node's right child.
      * @param r the right child
      */
-    public void setRightChild(BSTNode<K> r){
+    public void setRightChild(BSTNode<K> r) {
         right = r;
     }
 
@@ -111,7 +111,7 @@ public class BSTNode<K> {
      *
      * @param h the height
      */
-    public void setHeight(int h){
+    public void setHeight(int h) {
         height = h;
     }
 
@@ -119,7 +119,7 @@ public class BSTNode<K> {
      * Set this node's balance factor.
      * @param bf the balance factor
      */
-    public void setBalanceFactor(int bf){
+    public void setBalanceFactor(int bf) {
         balanceFactor = bf;
     }
 }
