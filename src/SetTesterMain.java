@@ -236,7 +236,7 @@ public class SetTesterMain {
 	public long evaluateContainsSearch(SetTesterADT<Integer> ds) {
 		// TODO (npetersen): create this method
 		long startTime = System.currentTimeMillis();
-
+		int a = 10;
 		for (Integer elm : originalDataList) {
 			if (!ds.contains(elm)) {
 				// TODO (npetersen): what message to throw?
