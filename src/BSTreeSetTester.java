@@ -195,14 +195,13 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @return true if the key is in the binary search tree
      * @throws IllegalArgumentException if key is null
      */
-    public boolean contains(K key) {
-        // TODO (npetersen): implemented method
-        
+    public boolean contains(K key) {        
     	if (key == null) throw new IllegalArgumentException();
     	
     	return contains(key, root);    	
     }
     
+    // TODO - Method header
     private boolean contains(K key, BSTNode<K> parent) {
     	if (parent == null) return false;
     	
@@ -254,9 +253,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * Return an iterator for the binary search tree.
      * @return the iterator
      */
-    public Iterator<K> iterator() {
-        // TODO (npetersen): made this method
-    	
+    public Iterator<K> iterator() {    	
         return new BSTIterator<K>(root);
     }
 
@@ -264,8 +261,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * Clears the tree, i.e., removes all the keys in the tree.
      */
     public void clear() {
-        // TODO (npetersen): implemented this method
-    	
     	numKeys = 0;
     	root = null;
     }
