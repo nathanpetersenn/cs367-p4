@@ -81,13 +81,19 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	}
     }
     
+	/**
+	 * Private companion add method.
+	 * 
+	 * @param key The key to add into the BST
+	 * @param parent The root initially, the parent being looked at.
+	 */
     private void add(K key, BSTNode<K> parent) {
     	// TODO (npetersen): created this method
     	
     	if (parent == null) {
     		// TODO (npetersen): remove this if statement eventually
     		// this in theory will never happen... hopefully
-    		throw new RuntimeException("parent was null");
+    		throw new RuntimeException("Parent was null");
     	}
     	
     	if (parent.getKey().equals(key)) {
@@ -117,7 +123,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			BSTNode<K> n = new BSTNode<K>(key);
     			n.setHeight(parent.getHeight() + 1);
     			n.setBalanceFactor(parent.getBalanceFactor() + 1);
-    			
+    			2
     			parent.setRightChild(n);
     			numKeys++;
     			
@@ -140,7 +146,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     public void rebalance() {
     	// TODO (npetersen): created this method
     	
-    	isBalanced = true;
+    	this.isBalanced = true;
     	
     	K[] keys = (K[]) new Comparable[numKeys];
         
@@ -169,7 +175,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
         // TODO (npetersen): implemented this method!
     	
-    	if (stop - start == 0) {
+    	if (stop - start <= 1) {
     		// at leaf of new tree
     		BSTNode<K> leaf = new BSTNode<K>(keys[start]);
 
@@ -249,6 +255,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	else if (maxValue.compareTo(parent.getKey()) > 0){
     		subSet(minValue, maxValue, parent.getLeftChild());
     	}
+    	
     	
     	
     	return null;
