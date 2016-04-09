@@ -21,7 +21,7 @@ public class BSTIterator<K> implements Iterator<K> {
      * @param n the root node of the BST
      */
     public BSTIterator(BSTNode<K> n){
-        //TODO
+        // TODO (npetersen): perform in-order traversal of tree........
     }
 
     /**
@@ -30,8 +30,9 @@ public class BSTIterator<K> implements Iterator<K> {
      * @return true iff the iterator has more items
      */
     public boolean hasNext() {
-        //TODO
-        return false;
+    	// TODO (npetersen): implemented this method
+    	
+    	return stack.peek() != null;
     }
 
     /**
@@ -41,10 +42,13 @@ public class BSTIterator<K> implements Iterator<K> {
      * @throws NoSuchElementException if the iterator has no more items
      */
     public K next() {
-        //TODO
-        return null;
+    	// TODO (npetersen): implemented this method
+    	
+    	if (!hasNext()) throw new NoSuchElementException();
+    	
+    	return stack.pop().getKey();
     }
-
+    
     /**
      * Not Supported
      */

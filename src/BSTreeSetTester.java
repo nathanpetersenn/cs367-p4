@@ -74,6 +74,11 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	} else {
         	add(key, root);
     	}
+    	
+    	// rebalance if necessary
+    	if (!isBalanced && rebalanceThreshold > 0) {
+    		rebalance();
+    	}
     }
     
     private void add(K key, BSTNode<K> parent) {
@@ -103,7 +108,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			parent.setLeftChild(n);
     			numKeys++;
     			
-    			if (n.getBalanceFactor() > rebalanceThreshold) rebalance();
+    			if (n.getBalanceFactor() > rebalanceThreshold) {
+    				isBalanced = false;
+    			}
     		} else {
     			add(key, parent.getLeftChild());
     		}
@@ -118,7 +125,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			parent.setRightChild(n);
     			numKeys++;
     			
-    			if (n.getBalanceFactor() > rebalanceThreshold) rebalance();
+    			if (n.getBalanceFactor() > rebalanceThreshold) {
+    				isBalanced = false;
+    			}
     		} else {
     			add(key, parent.getRightChild());
     		}
@@ -135,8 +144,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     public void rebalance() {
     	// TODO (npetersen): created this method
     	
-        @SuppressWarnings("unchecked")
-		K[] keys = (K[]) new Comparable[numKeys];
+    	isBalanced = true;
+    	
+    	K[] keys = (K[]) new Comparable[numKeys];
         
         BSTIterator<K> itr = new BSTIterator<K>(root);
         int i = 0;
@@ -161,8 +171,24 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @return root of the new balanced binary search tree
      */
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
-        //TODO
-        return null;
+        // TODO (npetersen): implemented this method!
+    	
+    	if (stop - start == 0) {
+    		// at leaf of new tree
+    		BSTNode<K> leaf = new BSTNode<K>(keys[start]);
+
+    		// TODO (npetersen): how to do these statements...?
+    		// leaf.setHeight(parent's height + 1);
+    		// leaf.setBalanceFactor(parent's bf + 1);
+
+    		return leaf;
+    	} else {
+    		// at middle of tree
+    		BSTNode<K> root = new BSTNode<K>(keys[stop-start/2]);
+    		root.setLeftChild(sortedArrayToBST(keys, start, (stop-start)/2));
+    		root.setRightChild(sortedArrayToBST(keys, (stop-start)/2, stop));
+    		return root;
+    	}
     }
 
     /**
@@ -173,8 +199,26 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @throws IllegalArgumentException if key is null
      */
     public boolean contains(K key) {
-        //TODO
-        return false;
+        // TODO (npetersen): implemented method
+        
+    	if (key == null) throw new IllegalArgumentException();
+    	
+    	return contains(key, root);    	
+    }
+    
+    private boolean contains(K key, BSTNode<K> parent) {
+    	if (parent == null) return false;
+    	
+    	if (parent.getKey().equals(key)) {
+    		// found it!
+    		return true;
+    	} else if (parent.getKey().compareTo(key) < 0) {
+    		// parent is less than key
+    		return contains(key, parent.getRightChild());
+    	} else {
+    		// parent is more than key
+    		return contains(key, parent.getLeftChild());
+    	}
     }
 
     /**
@@ -189,8 +233,24 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * null, or minValue is larger than maxValue
      */
     public List<K> subSet(K minValue, K maxValue) {
-        //TODO
-        return null;
+    	// TODO (npetersen): implemented this method
+    	
+    	if (minValue == null || maxValue == null || 
+    			minValue.compareTo(maxValue) > 0) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+        return subSet(minValue, maxValue, root);
+    }
+    
+    private List<K> subSet(K minValue, K maxValue, BSTNode<K> parent) {
+    	List<K> ret = new ArrayList<K>();
+    	
+    	// TODO (npetersen): yeah idk what to do here...
+    	
+    	
+    	
+    	return null;
     }
 
     /**
