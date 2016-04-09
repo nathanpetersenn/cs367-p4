@@ -243,7 +243,12 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	List<K> ret = new ArrayList<K>();
     	
     	// TODO (npetersen): yeah idk what to do here...
-    	
+    	if (minValue.compareTo(parent.getKey()) < 0){
+    		subSet(minValue, maxValue, parent.getRightChild());
+    	}
+    	else if (maxValue.compareTo(parent.getKey()) > 0){
+    		subSet(minValue, maxValue, parent.getLeftChild());
+    	}
     	
     	
     	return null;
