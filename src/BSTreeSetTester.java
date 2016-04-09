@@ -91,12 +91,8 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	}
     	
     	if (parent.getKey().equals(key)) {
-    		// duplicate key entry!
-    		
-    		// TODO (npetersen): this exception doesn't exist...
-    		// not sure if we should make it ourselves
-    		
-    		// throw new DuplicateKeyException();
+    		// duplicate key entry!    		
+    		throw new DuplicateKeyException();
     	} else if (parent.getKey().compareTo(key) < 0) {
     		// parent is smaller than key
     		
@@ -184,9 +180,10 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		return leaf;
     	} else {
     		// at middle of tree
-    		BSTNode<K> root = new BSTNode<K>(keys[stop-start/2]);
-    		root.setLeftChild(sortedArrayToBST(keys, start, (stop-start)/2));
-    		root.setRightChild(sortedArrayToBST(keys, (stop-start)/2, stop));
+    		int mid = (stop - start) / 2;
+    		BSTNode<K> root = new BSTNode<K>(keys[mid]);
+    		root.setLeftChild(sortedArrayToBST(keys, start, mid));
+    		root.setRightChild(sortedArrayToBST(keys, mid, stop));
     		return root;
     	}
     }

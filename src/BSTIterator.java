@@ -20,7 +20,9 @@ public class BSTIterator<K> implements Iterator<K> {
      *
      * @param n the root node of the BST
      */
-    public BSTIterator(BSTNode<K> n){
+    public BSTIterator(BSTNode<K> n) {
+    	stack = new Stack<BSTNode<K>>();
+    	
         // TODO (npetersen): perform in-order traversal of tree........
     }
 
@@ -32,7 +34,7 @@ public class BSTIterator<K> implements Iterator<K> {
     public boolean hasNext() {
     	// TODO (npetersen): implemented this method
     	
-    	return stack.peek() != null;
+    	return !stack.isEmpty();
     }
 
     /**
