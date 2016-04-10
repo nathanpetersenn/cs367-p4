@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
@@ -22,8 +23,22 @@ public class BSTIterator<K> implements Iterator<K> {
      */
     public BSTIterator(BSTNode<K> n) {
     	stack = new Stack<BSTNode<K>>();
+       	addToStack(n, stack);
+
+    }
+    
+    // TODO - method header
+    private void addToStack(BSTNode<K> parent, Stack<BSTNode<K>> subSetList) {
     	
-        // TODO (npetersen): perform in-order traversal of tree........
+    	if (parent.getLeftChild() != null) {
+    		addToStack(parent.getLeftChild(), subSetList);
+    	}
+    	
+    	subSetList.push(parent);
+    	
+    	if (parent.getRightChild() != null) {
+    		addToStack(parent.getRightChild(), subSetList);
+    	}
     }
 
     /**
@@ -32,8 +47,6 @@ public class BSTIterator<K> implements Iterator<K> {
      * @return true iff the iterator has more items
      */
     public boolean hasNext() {
-    	// TODO (npetersen): implemented this method
-    	
     	return !stack.isEmpty();
     }
 
@@ -44,7 +57,6 @@ public class BSTIterator<K> implements Iterator<K> {
      * @throws NoSuchElementException if the iterator has no more items
      */
     public K next() {
-    	// TODO (npetersen): implemented this method
     	
     	if (!hasNext()) throw new NoSuchElementException();
     	

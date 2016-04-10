@@ -46,7 +46,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @param rbt the rebalance threshold
      */
     public BSTreeSetTester(int rbt) {
-    	// TODO (npetersen): created this constructor
         root = null;
         numKeys = 0;
         isBalanced = true;
@@ -71,9 +70,16 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		root = new BSTNode<K>(key);
     		root.setHeight(1);
     		root.setBalanceFactor(0);
+    		numKeys++;
     	} else {
         	add(key, root);
     	}
+    	
+    	
+    	// balanceFactor = node.getLeftChildren().size() - node.getRighChildren().size()
+    	
+    	
+    	
     	
     	// rebalance if necessary
     	if (!isBalanced && rebalanceThreshold > 0) {
@@ -105,12 +111,11 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		if (parent.getLeftChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
     			n.setHeight(parent.getHeight() + 1);
-    			n.setBalanceFactor(parent.getBalanceFactor() + 1);
     			
     			parent.setLeftChild(n);
     			numKeys++;
     			
-    			if (n.getBalanceFactor() > rebalanceThreshold) {
+    			if (Math.abs(n.getBalanceFactor()) > rebalanceThreshold) {
     				isBalanced = false;
     			}
     		} else {
@@ -122,20 +127,24 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		if (parent.getRightChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
     			n.setHeight(parent.getHeight() + 1);
-    			n.setBalanceFactor(parent.getBalanceFactor() + 1);
-    			2
+    			
     			parent.setRightChild(n);
     			numKeys++;
     			
-    			if (n.getBalanceFactor() > rebalanceThreshold) {
+    			if (Math.abs(n.getBalanceFactor()) > rebalanceThreshold) {
     				isBalanced = false;
-    			}
+     			}
     		} else {
     			add(key, parent.getRightChild());
     		}
     	}
     }
     
+    
+    private void resetBalanceFactors(BSTNode<K> curr) {
+    	if (curr == null) return;
+    	curr.setBalanceFactor(curr.getLeftChild().getHeight() - curr.getRightChild().getHeight());
+    }
 
     /**
      * Rebalances the tree by:
@@ -144,8 +153,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * 2. Rebuilding the tree from the sorted array of keys.
      */
     public void rebalance() {
-    	// TODO (npetersen): created this method
-    	
     	this.isBalanced = true;
     	
     	K[] keys = (K[]) new Comparable[numKeys];
@@ -157,6 +164,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
         }
         
         root = sortedArrayToBST(keys, 0, numKeys);
+        // call resetBalanceFactors()
     }
 
     /**
@@ -172,11 +180,21 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @param stop the last index of the part of the array used
      * @return root of the new balanced binary search tree
      */
+    private int numCalled = 0;
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
         // TODO (npetersen): implemented this method!
+    	if (numCalled++ > 50) {
+    		return null;
+    	}
     	
-    	if (stop - start <= 1) {
-    		// at leaf of new tree
+		System.out.println("Start is " + start + " // Stop is " + stop);
+
+    	
+    	if (stop - start <= 1 //&& start > stop) {
+    			){
+    			// at leaf of new tree
+    		System.out.println("***INSIDE THE IF:  Start is " + start + " // Stop is " + stop);
+
     		BSTNode<K> leaf = new BSTNode<K>(keys[start]);
 
     		// TODO (npetersen): how to do these statements...?
@@ -190,6 +208,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		BSTNode<K> root = new BSTNode<K>(keys[mid]);
     		root.setLeftChild(sortedArrayToBST(keys, start, mid));
     		root.setRightChild(sortedArrayToBST(keys, mid, stop));
+
     		return root;
     	}
     }
@@ -235,7 +254,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * null, or minValue is larger than maxValue
      */
     public List<K> subSet(K minValue, K maxValue) {
-    	// TODO (npetersen): implemented this method
     	
     	if (minValue == null || maxValue == null || 
     			minValue.compareTo(maxValue) > 0) {
@@ -249,7 +267,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     
     // TODO - method header
     private void addToList(K minValue, K maxValue, BSTNode<K> parent, List<K> subSetList) {
-    	// TODO (npetersen): implemented this thing
     	
     	if (parent.getLeftChild() != null && parent.getLeftChild().getKey().compareTo(minValue) > 0) {
     		addToList(minValue, maxValue, parent.getLeftChild(), subSetList);
@@ -257,14 +274,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	
     	subSetList.add(parent.getKey());
     	
-<<<<<<< HEAD
-    	
-    	return null;
-=======
     	if (parent.getRightChild() != null && parent.getRightChild().getKey().compareTo(maxValue) < 0) {
     		addToList(minValue, maxValue, parent.getRightChild(), subSetList);
     	}
->>>>>>> origin/master
     }
 
     /**
