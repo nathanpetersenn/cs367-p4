@@ -33,9 +33,9 @@ class Stats {
 	 * for a given data structure.
 	 */
 	public Stats(){
-		buildStats = new ArrayList<>();
-		containsSearchStats = new ArrayList<>();
-		rangeSearchStats = new ArrayList<>();
+		buildStats = new ArrayList<Double>();
+		containsSearchStats = new ArrayList<Double>();
+		rangeSearchStats = new ArrayList<Double>();
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class ArrayListSetTester<K extends Comparable<K>> implements SetTesterADT
 
     @Override
     public List<K> subSet(K minValue, K maxValue) {
-        List<K> result = new ArrayList<>();
+        List<K> result = new ArrayList<K>();
         for(K elem : listSet){
             if(elem.compareTo(minValue) > 0 && elem.compareTo(maxValue) < 0){
                 result.add(elem);
