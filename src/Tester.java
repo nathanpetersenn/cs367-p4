@@ -2,7 +2,7 @@
 public class Tester {
 	public static void main(String[] args){
 		
-		BSTreeSetTester<Integer> bst = new BSTreeSetTester<Integer>(0);
+		BSTreeSetTester<Integer> bst = new BSTreeSetTester<Integer>(-1);
 		//for (int i)
 		for (int i=0; i<10; i += 2){
 			bst.add(i);
@@ -13,7 +13,7 @@ public class Tester {
 		
 		bst.displayTree(50);
 		
-		bst.rebalance();
+		//bst.rebalance();
 		System.out.println("---------------------------");
 		bst.displayTree(50);
 
