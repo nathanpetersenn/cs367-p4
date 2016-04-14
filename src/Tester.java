@@ -14,7 +14,6 @@ public class Tester {
 		bst.displayTree(50);
 		
 		//bst.rebalance();
-		System.out.println("---------------------------");
 		bst.displayTree(50);
 
 
