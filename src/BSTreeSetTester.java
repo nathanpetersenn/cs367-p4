@@ -75,11 +75,8 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
         	add(key, root);
     	}
     	
-    	
-    	// balanceFactor = node.getLeftChildren().size() - node.getRighChildren().size()
-    	
-    	
-    	
+//    	resetHeight(root);
+    	resetBalanceFactor(root);
     	
     	// rebalance if necessary
     	if (!isBalanced && rebalanceThreshold > 0) {
@@ -96,12 +93,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     private void add(K key, BSTNode<K> parent) {
     	// TODO (npetersen): created this method
     	
-    	if (parent == null) {
-    		// TODO (npetersen): remove this if statement eventually
-    		// this in theory will never happen... hopefully
-    		throw new RuntimeException("Parent was null");
-    	}
-    	
     	if (parent.getKey().equals(key)) {
     		// duplicate key entry!    		
     		throw new DuplicateKeyException();
@@ -114,10 +105,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			
     			parent.setLeftChild(n);
     			numKeys++;
-    			
-    			if (Math.abs(n.getBalanceFactor()) > rebalanceThreshold) {
-    				isBalanced = false;
-    			}
     		} else {
     			add(key, parent.getLeftChild());
     		}
@@ -130,20 +117,61 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			
     			parent.setRightChild(n);
     			numKeys++;
-    			
-    			if (Math.abs(n.getBalanceFactor()) > rebalanceThreshold) {
-    				isBalanced = false;
-     			}
     		} else {
     			add(key, parent.getRightChild());
     		}
     	}
     }
     
+//    // TODO - method header
+//    private void resetHeight(BSTNode<K> curr) {
+//    	if (curr == null) return;
+//    	
+//    	if (curr.getLeftChild() != null) {
+//    		curr.getLeftChild().setHeight(curr.getHeight() + 1);
+//    		resetHeight(curr.getLeftChild());
+//    	}
+//    	
+//    	if (curr.getRightChild() != null) {
+//    		curr.getRightChild().setHeight(curr.getHeight() + 1);
+//    		resetHeight(curr.getRightChild());
+//    	}
+//    }
     
-    private void resetBalanceFactors(BSTNode<K> curr) {
+    // TODO - method header
+    private void resetBalanceFactor(BSTNode<K> curr) {
     	if (curr == null) return;
-    	curr.setBalanceFactor(curr.getLeftChild().getHeight() - curr.getRightChild().getHeight());
+    	
+    	if (curr.getLeftChild() == null && curr.getRightChild() == null) {
+    		// curr is a leaf (no children)
+    		curr.setBalanceFactor(0);
+    		return;
+    	} else if (curr.getLeftChild() != null && curr.getRightChild() == null) {
+    		// curr only has left children
+    		
+    		int bf = curr.getLeftChild().getHeight();
+			if (bf > rebalanceThreshold) isBalanced = false;
+    		
+    		curr.setBalanceFactor(bf);
+    		resetBalanceFactor(curr.getLeftChild());
+    	} else if (curr.getLeftChild() == null && curr.getRightChild() != null) {
+    		// curr only has right children
+    		
+    		int bf = curr.getRightChild().getHeight();
+			if (bf > rebalanceThreshold) isBalanced = false;
+    		
+    		curr.setBalanceFactor(-1 * bf);
+    		resetBalanceFactor(curr.getRightChild());
+    	} else {
+    		// curr has both children
+    		
+    		int bf = curr.getLeftChild().getHeight() - curr.getRightChild().getHeight();
+			if (Math.abs(bf) > rebalanceThreshold) isBalanced = false;
+    		
+    		curr.setBalanceFactor(bf);
+    		resetBalanceFactor(curr.getLeftChild());
+    		resetBalanceFactor(curr.getRightChild());
+    	}
     }
 
     /**
@@ -164,7 +192,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
         }
         
         root = sortedArrayToBST(keys, 0, numKeys);
-        // call resetBalanceFactors()
+
+//    	resetHeight(root);
+    	resetBalanceFactor(root);
     }
 
     /**
@@ -180,28 +210,12 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @param stop the last index of the part of the array used
      * @return root of the new balanced binary search tree
      */
-    private int numCalled = 0;
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
         // TODO (npetersen): implemented this method!
-    	if (numCalled++ > 50) {
-    		return null;
-    	}
     	
-		System.out.println("Start is " + start + " // Stop is " + stop);
-
-    	
-    	if (stop - start <= 1 //&& start > stop) {
-    			){
-    			// at leaf of new tree
-    		System.out.println("***INSIDE THE IF:  Start is " + start + " // Stop is " + stop);
-
-    		BSTNode<K> leaf = new BSTNode<K>(keys[start]);
-
-    		// TODO (npetersen): how to do these statements...?
-    		// leaf.setHeight(parent's height + 1);
-    		// leaf.setBalanceFactor(parent's bf + 1);
-
-    		return leaf;
+    	if (stop - start <= 1) {
+    		// at leaf of new tree
+    		return new BSTNode<K>(keys[start]);
     	} else {
     		// at middle of tree
     		int mid = (stop - start) / 2;
