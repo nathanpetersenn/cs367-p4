@@ -181,7 +181,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * 2. Rebuilding the tree from the sorted array of keys.
      */
     public void rebalance() {
-    	this.isBalanced = true;
+    	isBalanced = true;
     	
     	K[] keys = (K[]) new Comparable[numKeys];
         
@@ -213,16 +213,32 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
         // TODO (npetersen): implemented this method!
     	
-    	if (stop - start <= 1) {
-    		// at leaf of new tree
+		System.out.println("Start is " + start);
+		System.out.println("Stop is " + stop);
+		System.out.println("Mid is " + (stop+start)/2);
+    	
+    	if (stop - start <= 0) {
     		return new BSTNode<K>(keys[start]);
+    	} else if (stop - start == 1) {
+    		// at leaf of new tree
+    		BSTNode<K> node = new BSTNode<K>(keys[start]);
+    		
+    		if (stop < keys.length) {
+    			System.out.println(keys.length);
+        		node.setRightChild(sortedArrayToBST(keys, stop, stop));
+    		}
+    		
+    		return node;
     	} else {
     		// at middle of tree
-    		int mid = (stop - start) / 2;
+    		int mid = (stop + start) / 2;
     		BSTNode<K> root = new BSTNode<K>(keys[mid]);
-    		root.setLeftChild(sortedArrayToBST(keys, start, mid));
-    		root.setRightChild(sortedArrayToBST(keys, mid, stop));
-
+    		root.setLeftChild(sortedArrayToBST(keys, start, mid-1));
+    		
+    		if (mid+1 < keys.length) {
+    			root.setRightChild(sortedArrayToBST(keys, mid+1, stop));
+    		}
+    		
     		return root;
     	}
     }
@@ -240,7 +256,13 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	return contains(key, root);    	
     }
     
-    // TODO - Method header
+    /**
+     * 
+     * 
+     * @param key
+     * @param parent
+     * @return
+     */
     private boolean contains(K key, BSTNode<K> parent) {
     	if (parent == null) return false;
     	
@@ -279,7 +301,14 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
         return subSetList;
     }
     
-    // TODO - method header
+    /**
+     * Resursively adds keys to the list using in-order traversal
+     * 
+     * @param minValue The minimum value
+     * @param maxValue The maximum value
+     * @param parent The parent node
+     * @param subSetList The subset list
+     */
     private void addToList(K minValue, K maxValue, BSTNode<K> parent, List<K> subSetList) {
     	
     	if (parent.getLeftChild() != null && parent.getLeftChild().getKey().compareTo(minValue) > 0) {
