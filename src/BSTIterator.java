@@ -27,7 +27,6 @@ public class BSTIterator<K> implements Iterator<K> {
 
     }
     
-    // TODO - method header
     private void addToStack(BSTNode<K> parent, Stack<BSTNode<K>> subSetList) {
     	
     	if (parent.getLeftChild() != null) {

@@ -62,7 +62,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @throws DuplicateKeyException if the key is a duplicate
      */
 	public void add(K key) {
-        // TODO (npetersen): created this method
     	
     	if (key == null) throw new IllegalArgumentException();
     	
@@ -90,14 +89,12 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
 	 * @param key The key to add into the BST
 	 * @param parent The root initially, the parent being looked at.
 	 */
-    private void add(K key, BSTNode<K> parent) {
-    	// TODO (npetersen): created this method
-    	
+    private void add(K key, BSTNode<K> parent) {    	
     	if (parent.getKey().equals(key)) {
     		// duplicate key entry!    		
     		throw new DuplicateKeyException();
-    	} else if (parent.getKey().compareTo(key) < 0) {
-    		// parent is smaller than key
+    	} else if (parent.getKey().compareTo(key) > 0) {
+    		// parent is greater than key
     		
     		if (parent.getLeftChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
@@ -109,7 +106,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     			add(key, parent.getLeftChild());
     		}
     	} else {
-    		// parent is larger than key
+    		// parent is smaller than key
     		
     		if (parent.getRightChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
@@ -123,7 +120,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	}
     }
     
-//    // TODO - method header
 //    private void resetHeight(BSTNode<K> curr) {
 //    	if (curr == null) return;
 //    	
@@ -138,7 +134,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
 //    	}
 //    }
     
-    // TODO - method header
     private void resetBalanceFactor(BSTNode<K> curr) {
     	if (curr == null) return;
     	
@@ -149,24 +144,22 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	} else if (curr.getLeftChild() != null && curr.getRightChild() == null) {
     		// curr only has left children
     		
-    		int bf = curr.getLeftChild().getHeight();
-			if (bf > rebalanceThreshold) isBalanced = false;
-    		
+    		int bf = getSubtreeSize(curr.getLeftChild());
+			if (bf >= rebalanceThreshold) isBalanced = false;
     		curr.setBalanceFactor(bf);
     		resetBalanceFactor(curr.getLeftChild());
     	} else if (curr.getLeftChild() == null && curr.getRightChild() != null) {
     		// curr only has right children
     		
-    		int bf = curr.getRightChild().getHeight();
-			if (bf > rebalanceThreshold) isBalanced = false;
-    		
+    		int bf = getSubtreeSize(curr.getRightChild());
+			if (bf >= rebalanceThreshold) isBalanced = false;
     		curr.setBalanceFactor(-1 * bf);
     		resetBalanceFactor(curr.getRightChild());
     	} else {
     		// curr has both children
     		
-    		int bf = curr.getLeftChild().getHeight() - curr.getRightChild().getHeight();
-			if (Math.abs(bf) > rebalanceThreshold) isBalanced = false;
+    		int bf = getSubtreeSize(curr.getLeftChild()) - getSubtreeSize(curr.getRightChild());
+			if (Math.abs(bf) >= rebalanceThreshold) isBalanced = false;
     		
     		curr.setBalanceFactor(bf);
     		resetBalanceFactor(curr.getLeftChild());
@@ -174,6 +167,10 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	}
     }
 
+    private int getSubtreeSize(BSTNode<K> curr){
+    	if (curr == null) return 0;
+    	return 1 + getSubtreeSize(curr.getLeftChild()) + getSubtreeSize(curr.getRightChild());    	
+    }
     /**
      * Rebalances the tree by:
      * 1. Copying all keys in the BST in sorted order into an array.
@@ -211,11 +208,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @return root of the new balanced binary search tree
      */
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
-        // TODO (npetersen): implemented this method!
-    	
-		System.out.println("Start is " + start);
-		System.out.println("Stop is " + stop);
-		System.out.println("Mid is " + (stop+start)/2);
     	
     	if (stop - start <= 0) {
     		return new BSTNode<K>(keys[start]);
@@ -224,7 +216,6 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     		BSTNode<K> node = new BSTNode<K>(keys[start]);
     		
     		if (stop < keys.length) {
-    			System.out.println(keys.length);
         		node.setRightChild(sortedArrayToBST(keys, stop, stop));
     		}
     		

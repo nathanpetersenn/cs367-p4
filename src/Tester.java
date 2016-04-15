@@ -2,12 +2,9 @@
 public class Tester {
 	public static void main(String[] args){
 		
-		BSTreeSetTester<Integer> bst = new BSTreeSetTester<Integer>(-1);
-		//for (int i)
-		for (int i=0; i<100; i += 2){
-			bst.add(i);
-		}
-		for (int i=1; i<100; i+=2){
+		BSTreeSetTester<Integer> bst = new BSTreeSetTester<Integer>(1);
+		//for (int i2
+		for (int i=0; i<21; i++){
 			bst.add(i);
 		}
 		
