@@ -22,6 +22,8 @@ rebalance factor(e.g 2) and RBTree?
 
 Answer:
 
+
+
 3) Before running your program, what is the worst complexity of range search for 
 ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree? Assume the range is small.
