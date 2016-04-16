@@ -234,7 +234,6 @@ public class SetTesterMain {
 	 * @throws RuntimeException if a data item is not found in the SetTester
 	 */
 	public long evaluateContainsSearch(SetTesterADT<Integer> ds) {
-		// TODO (npetersen): create this method
 		long startTime = System.currentTimeMillis();
 
 		for (Integer elm : originalDataList) {
@@ -255,16 +254,11 @@ public class SetTesterMain {
 	 * @return the time (milliseconds) for range search
 	 */
 	public long evaluateRangeSearch(SetTesterADT<Integer> ds) {
-		// TODO (npetersen): create this method
 		long startTime = System.currentTimeMillis();
-
+		
 		for (Integer elm : originalDataList) {
-			// TODO (npetersen): 
-			// 10 is hard coded... probably should 
-			// come from somewhere but idk where
 			ds.subSet(elm - 10, elm + 10);
 		}
-		
 		return System.currentTimeMillis()-startTime;
 	}
 
