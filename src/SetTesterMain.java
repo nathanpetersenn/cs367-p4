@@ -5,6 +5,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//Title:            SetTesterMain
+//Files:            SetTesterMain.java, BSTIterator.java, BSTreeSetTester.java
+//Semester:         CS 367 Spring 2016
+//
+//Author:           Nathan Petersen
+//Email:            npetersen@wisc.edu
+//CS Login:         npetersen
+//Lecturer's Name:  Deppeler
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
+//
+//Pair Partner:     Evan Degler
+//Email:            edegler@wisc.edu
+//CS Login:         degler
+//Lecturer's Name:  Skrentny
+//
+////////////////////////////80 columns wide //////////////////////////////////
+
+
 /**
  * Run several data experiments and display results, 
  * so you can analyze the results and answer some questions about the 
@@ -234,15 +255,14 @@ public class SetTesterMain {
 	 * @throws RuntimeException if a data item is not found in the SetTester
 	 */
 	public long evaluateContainsSearch(SetTesterADT<Integer> ds) {
+		// Saves the time the method starts and returns the time the method
+		// took to run, checking for a RuntimeException along the way
 		long startTime = System.currentTimeMillis();
-
-		for (Integer elm : originalDataList) {
-			if (!ds.contains(elm)) {
-				// TODO (npetersen): what message to throw?
+		for (Integer elm : originalDataList){
+			if (!ds.contains(elm)){
 				throw new RuntimeException("Data item not found in SetTester");
 			}
 		}
-		
 		return System.currentTimeMillis()-startTime;
 	}
 
@@ -254,8 +274,9 @@ public class SetTesterMain {
 	 * @return the time (milliseconds) for range search
 	 */
 	public long evaluateRangeSearch(SetTesterADT<Integer> ds) {
+		// Saves the time the method starts and returns the time the method
+		// took to run, checking for a RuntimeException along the way
 		long startTime = System.currentTimeMillis();
-		
 		for (Integer elm : originalDataList) {
 			ds.subSet(elm - 10, elm + 10);
 		}

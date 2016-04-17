@@ -4,6 +4,26 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//Main Class File:  SetTesterMain.java
+//File:             BSTIterator.java
+//Semester:         CS 367 Spring 2016
+//
+//Author:           Nathan Petersen
+//Email:			npetersen2@wisc.edu
+//CS Login:         npetersen
+//Lecturer's Name:  Deppeler
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
+//
+//Pair Partner:     Evan Degler
+//Email:            edegler@wisc.edu
+//CS Login:         degler
+//Lecturer's Name:  Skrentny
+//
+////////////////////////////80 columns wide //////////////////////////////////
+
 /**
  * The Iterator for Binary Search Tree (BST) that is built using Java's Stack
  * class. This iterator steps through the items BST using an INORDER traversal.
@@ -34,14 +54,12 @@ public class BSTIterator<K> implements Iterator<K> {
      * @param subSetList The subtree of nodes under the parent node.
      */
     private void addToStack(BSTNode<K> parent, LinkedList<BSTNode<K>> subSetList) {
-    	// If parent doesn't have a left child, recursively calls addToStack
-    	// if the parent's left child and the same subSetList
+    	// Adds nodes to the subSetList by in-order traversal. First checks
+    	// left child, then adds, then checks right child (Left-Visit-Right)
     	if (parent.getLeftChild() != null) {
     		addToStack(parent.getLeftChild(), subSetList);
     	}
-    	
     	subSetList.push(parent);
-    	
     	if (parent.getRightChild() != null) {
     		addToStack(parent.getRightChild(), subSetList);
     	}
@@ -53,6 +71,7 @@ public class BSTIterator<K> implements Iterator<K> {
      * @return true iff the iterator has more items
      */
     public boolean hasNext() {
+    	// Returns false if the list is empty, true otherwise
     	return !list.isEmpty();
     }
 
@@ -63,9 +82,8 @@ public class BSTIterator<K> implements Iterator<K> {
      * @throws NoSuchElementException if the iterator has no more items
      */
     public K next() {
-    	
     	if (!hasNext()) throw new NoSuchElementException();
-    	
+    	// Returns the last element in the list's key
     	return list.removeLast().getKey();
     }
     
