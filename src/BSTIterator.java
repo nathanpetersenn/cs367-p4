@@ -12,7 +12,7 @@ import java.util.Stack;
  */
 public class BSTIterator<K> implements Iterator<K> {
 
-    /** Stack to track where the iterator is in the BST*/
+    /** LinkedList to track where the iterator is in the BST*/
     LinkedList<BSTNode<K>> list;
 
     /**
@@ -24,10 +24,18 @@ public class BSTIterator<K> implements Iterator<K> {
      */
     public BSTIterator(BSTNode<K> n) {
     	list = new LinkedList<BSTNode<K>>();
+    	// Adds n to the stack with a companion method
        	addToStack(n, list);
     }
-    
+    /**
+     * Companion method to add nodes to the stack.
+     * 
+     * @param parent The node being added to the stack.
+     * @param subSetList The subtree of nodes under the parent node.
+     */
     private void addToStack(BSTNode<K> parent, LinkedList<BSTNode<K>> subSetList) {
+    	// If parent doesn't have a left child, recursively calls addToStack
+    	// if the parent's left child and the same subSetList
     	if (parent.getLeftChild() != null) {
     		addToStack(parent.getLeftChild(), subSetList);
     	}
