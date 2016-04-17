@@ -1,10 +1,10 @@
 /*******************************************************************************
 File:             Questions.txt
 
-Author:           <your name and CS login>
-                  <your partner's name and CS login, if pair programming>
+Author:           Nathan Petersen npetersen
+                  Evan Degler degler
 
-Completion Date:  <date you completed this source file>
+Completion Date:  April 17, 2016
 
 Course:           CS 367, Spring 2016
 *******************************************************************************/
@@ -16,9 +16,9 @@ rebalance factor(e.g 2) and RBTree?
 
 Answer:
 ArrayList - O(N)
-Binary Search Tree - O(N)
+Binary Search Tree - O(N log N)
 Binary Search Tree w/Small Rebalance Factor - O(N log N)
-RBTree - O(log N)
+RBTree - O(N log N)
 
 2) Before running your program, what is the worst complexity of contains search for 
 ArrayList, Binary Search Tree, Binary Search Tree with a small positive
@@ -35,10 +35,11 @@ RBTree - O(log N)
 ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree? Assume the range is small.
 
-Answer:
-//TODO
-
-
+Answer: for looking on interval [a, b):
+ArrayList - O(N) 
+Binary Search Tree - O(N)
+Binary Search Tree w/Small Rebalance Factor - O(log N)
+RBTree - O(log N)
 
 For questions 4 - 6, you should use the Evaluator program as written.
 
@@ -54,13 +55,13 @@ b)What about for the sorted data?
 
 Answer:
 a) Fastest->Slowest:
-		Build Tree: ArrayList, BSTreeSet & RBTreeSet (tie), BSTreeBSet
-		Contains: BSTreeSet & BSTreeBSet & RBTreeSet (tie), ArrayList
-		Range Search: BSTreeBSet, BSTreeSet, ArrayList, RBTreeSet
+		Build Tree: ArrayListSet, BSTreeSet & RBTreeSet (tie), BSTreeBSet
+		Contains: BSTreeSet & BSTreeBSet & RBTreeSet (tie), ArrayListSet
+		Range Search: BSTreeBSet, BSTreeSet, ArrayListSet, RBTreeSet
 b) Fastest->Slowest:
-		Build Tree: ArrayList & BSTree (tie), BSTreeBSet, RBTree
-		Contains: BSTree & BSTreeBSet & RBTree (tie), ArrayList
-		Range Search: RBTree, ArrayList & BSTreeBSet (tie), BSTree
+		Build Tree: ArrayListSet & BSTreeSet (tie), BSTreeBSet, RBTreeSet
+		Contains: BSTreeSet & BSTreeBSet & RBTreeSet (tie), ArrayListSet
+		Range Search: RBTreeSet, ArrayListSet & BSTreeBSet (tie), BSTreeSet
 
 
 5) In this question you will run the program using the parameters 
@@ -101,11 +102,11 @@ and range search.
 Answer:
 
 When the rebalance threshold is increased:
-  - Build time goes down because the tree doesn't need to be rebalanced as often. 
+  - Build Time goes down because the tree doesn't need to be rebalanced as often. 
 	Since the rebalance algorithm is fairly inefficient, not calling it makes building faster.
-  - Contains search time fluctuates depending on if the total data entries is a mulitple of the
+  - Contains Search Time fluctuates depending on if the total data entries is a mulitple of the
     threshold. The time does not change drastically; it varies around the time for a well-balanced tree
-  - Range search time is very similar to contains search time: it also does not change
+  - Range Search Time is very similar to contains search time: it also does not change
     drastically when the rebalance threshold is increased. The time simply fluctuates like 
     the contains search time does.
 

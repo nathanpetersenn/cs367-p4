@@ -1,8 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Stack;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -45,23 +43,23 @@ public class BSTIterator<K> implements Iterator<K> {
     public BSTIterator(BSTNode<K> n) {
     	list = new LinkedList<BSTNode<K>>();
     	// Adds n to the stack with a companion method
-       	addToStack(n, list);
+       	addToQueue(n, list);
     }
     /**
-     * Companion method to add nodes to the stack.
+     * Companion method to add nodes to the queue.
      * 
-     * @param parent The node being added to the stack.
+     * @param parent The node being added to the queue.
      * @param subSetList The subtree of nodes under the parent node.
      */
-    private void addToStack(BSTNode<K> parent, LinkedList<BSTNode<K>> subSetList) {
+    private void addToQueue(BSTNode<K> parent, LinkedList<BSTNode<K>> subSetList) {
     	// Adds nodes to the subSetList by in-order traversal. First checks
     	// left child, then adds, then checks right child (Left-Visit-Right)
     	if (parent.getLeftChild() != null) {
-    		addToStack(parent.getLeftChild(), subSetList);
+    		addToQueue(parent.getLeftChild(), subSetList);
     	}
     	subSetList.push(parent);
     	if (parent.getRightChild() != null) {
-    		addToStack(parent.getRightChild(), subSetList);
+    		addToQueue(parent.getRightChild(), subSetList);
     	}
     }
 
