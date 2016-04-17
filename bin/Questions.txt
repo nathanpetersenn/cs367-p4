@@ -54,9 +54,9 @@ b)What about for the sorted data?
 
 Answer:
 a) Fastest->Slowest:
-		Build Tree: ArrayList, BSTree & RBTreeSet (tie), BSTreeBSet
-		Contains: BSTree & BSTreeBSet & RBTree (tie), ArrayList
-		Range Search: BSTreeBSet, BSTree, ArrayList, RBTree
+		Build Tree: ArrayList, BSTreeSet & RBTreeSet (tie), BSTreeBSet
+		Contains: BSTreeSet & BSTreeBSet & RBTreeSet (tie), ArrayList
+		Range Search: BSTreeBSet, BSTreeSet, ArrayList, RBTreeSet
 b) Fastest->Slowest:
 		Build Tree: ArrayList & BSTree (tie), BSTreeBSet, RBTree
 		Contains: BSTree & BSTreeBSet & RBTree (tie), ArrayList
@@ -74,7 +74,20 @@ of building tree, contains search and range search for random data and sorted da
 
 Answer:
 
-a) 
+a) For random data: the order changes slightly, but only huge jump is in ArrayList's range search (got really slow)
+	Building is still very similar, except BSTreeSet is slightly faster than RBTreeSet
+	Contains is also similar: Fastest->Slowest: BSTreeBSet, RBTreeSet, BSTreeSet, ArrayListSet
+	Range Search is similar as well: Fastest->Slowest: BSTreeBSet, BSTreeSet, RBTreeSet, ArrayListSet
+	
+   For sorted data:
+	Build tree: Very different: fast->slow: ArrayListSet, RBTreeSet, BSTreeSet, BSTreeBSet
+	Contains: different: fast->slow: BSTreeBSet, RBTreeSet, ArrayListSet, BSTreeSet
+	Range search: similar: fast->slow: BSTreeBSet, RBTreeSet, ArrayListSet, BSTreeSet
+
+b) When programming with a Data Structure, you only build the structure once because the main purpose is
+to actually use it. This means that the Build Time is less important than the Contains Search time and 
+Range Search time. Looking only at the latter times, ArrayListSet has the slowest times, thus the largest
+growth rate function for random data. For sorted data, BSTreeSet is also slow, but ArrayListSet outweighs it.
 
 6) In this question you will run the program using the parameters 
 indicated below:
@@ -85,5 +98,14 @@ random_1000.txt 10 10 3
 
 Briefly explain how the rebalanceThreshold effects the time for building tree, contains search 
 and range search.
-
 Answer:
+
+When the rebalance threshold is increased:
+  - Build time goes down because the tree doesn't need to be rebalanced as often. 
+	Since the rebalance algorithm is fairly inefficient, not calling it makes building faster.
+  - Contains search time fluctuates depending on if the total data entries is a mulitple of the
+    threshold. The time does not change drastically; it varies around the time for a well-balanced tree
+  - Range search time is very similar to contains search time: it also does not change
+    drastically when the rebalance threshold is increased. The time simply fluctuates like 
+    the contains search time does.
+
