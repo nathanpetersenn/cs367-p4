@@ -15,13 +15,20 @@ ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree?
 
 Answer:
+ArrayList - O(N)
+Binary Search Tree - O(N)
+Binary Search Tree w/Small Rebalance Factor - O(N log N)
+RBTree - O(log N)
 
 2) Before running your program, what is the worst complexity of contains search for 
 ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree?
 
 Answer:
-
+ArrayList - O(N)
+Binary Search Tree - O(N)
+Binary Search Tree w/Small Rebalance Factor - O(log N)
+RBTree - O(log N)
 
 
 3) Before running your program, what is the worst complexity of range search for 
@@ -29,6 +36,9 @@ ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree? Assume the range is small.
 
 Answer:
+//TODO
+
+
 
 For questions 4 - 6, you should use the Evaluator program as written.
 
@@ -43,6 +53,15 @@ search?
 b)What about for the sorted data?
 
 Answer:
+a) Fastest->Slowest:
+		Build Tree: ArrayList, BSTree & RBTreeSet (tie), BSTreeBSet
+		Contains: BSTree & BSTreeBSet & RBTree (tie), ArrayList
+		Range Search: BSTreeBSet, BSTree, ArrayList, RBTree
+b) Fastest->Slowest:
+		Build Tree: ArrayList & BSTree (tie), BSTreeBSet, RBTree
+		Contains: BSTree & BSTreeBSet & RBTree (tie), ArrayList
+		Range Search: RBTree, ArrayList & BSTreeBSet (tie), BSTree
+
 
 5) In this question you will run the program using the parameters 
 indicated below:
@@ -54,6 +73,8 @@ b)Which data structure has the largest growth rate function? Explain your answer
 of building tree, contains search and range search for random data and sorted data.
 
 Answer:
+
+a) 
 
 6) In this question you will run the program using the parameters 
 indicated below:
