@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
@@ -12,7 +13,7 @@ import java.util.Stack;
 public class BSTIterator<K> implements Iterator<K> {
 
     /** Stack to track where the iterator is in the BST*/
-    Stack<BSTNode<K>> stack;
+    LinkedList<BSTNode<K>> list;
 
     /**
      * Constructs the iterator so that it is initially at the smallest
@@ -22,13 +23,11 @@ public class BSTIterator<K> implements Iterator<K> {
      * @param n the root node of the BST
      */
     public BSTIterator(BSTNode<K> n) {
-    	stack = new Stack<BSTNode<K>>();
-       	addToStack(n, stack);
-
+    	list = new LinkedList<BSTNode<K>>();
+       	addToStack(n, list);
     }
     
-    private void addToStack(BSTNode<K> parent, Stack<BSTNode<K>> subSetList) {
-    	
+    private void addToStack(BSTNode<K> parent, LinkedList<BSTNode<K>> subSetList) {
     	if (parent.getLeftChild() != null) {
     		addToStack(parent.getLeftChild(), subSetList);
     	}
@@ -46,7 +45,7 @@ public class BSTIterator<K> implements Iterator<K> {
      * @return true iff the iterator has more items
      */
     public boolean hasNext() {
-    	return !stack.isEmpty();
+    	return !list.isEmpty();
     }
 
     /**
@@ -59,7 +58,7 @@ public class BSTIterator<K> implements Iterator<K> {
     	
     	if (!hasNext()) throw new NoSuchElementException();
     	
-    	return stack.pop().getKey();
+    	return list.removeLast().getKey();
     }
     
     /**

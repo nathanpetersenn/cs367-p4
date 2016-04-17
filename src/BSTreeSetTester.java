@@ -90,34 +90,40 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
 	 */
     private void add(K key, BSTNode<K> parent) {
     	// If parent's key equals key - duplicate key entry!
+    	
     	if (parent.getKey().equals(key)) {
     		throw new DuplicateKeyException();
     		
     	// If parent's key is greater than key, look in left child's subtree
     	} else if (parent.getKey().compareTo(key) > 0) {
+    		//System.out.println(key + " is less than " + parent.getKey());
     		parent.setBalanceFactor(parent.getBalanceFactor()+1);
+    		if (Math.abs(parent.getBalanceFactor()) >= rebalanceThreshold){
+    			isBalanced = false;
+    		}
     		// If parent's left child is null, creates a new node and adds it
     		if (parent.getLeftChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
     			n.setHeight(parent.getHeight() + 1);
     			parent.setLeftChild(n);
-    			n.setBalanceFactor(0);
     			numKeys++;
     		// If parent's left child isn't null,
     		// recursively calls add with the key to the parent's left child 
     		} else {
     			add(key, parent.getLeftChild());
     		}
-    	// If parent's key is smaller than key, look in right child's subtree
-    	} else {
+    	// If parent's key is smaller than key, look in riht child's subtree
+    	} else if (parent.getKey().compareTo(key) < 0) {
     		parent.setBalanceFactor(parent.getBalanceFactor()-1);
+    		if (Math.abs(parent.getBalanceFactor()) >= rebalanceThreshold){
+    			isBalanced = false;
+    		}
     		// If parent's right child is null
     		if (parent.getRightChild() == null) {
     			// Create a new node and add it
     			BSTNode<K> n = new BSTNode<K>(key);
     			n.setHeight(parent.getHeight() + 1);
     			parent.setRightChild(n);
-    			n.setBalanceFactor(0);
     			numKeys++;
     		// If parent's right child isn't null,
     		// recursively calls add with the key to the parent's right child
@@ -135,45 +141,45 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * 
      * @param curr The current node whose balance factor is being reset.
      */
-    private void resetBalanceFactors(BSTNode<K> curr) {
-    	// If curr is null, we're done
-    	if (curr == null) return;
-    	// If both children are null, curr is a leaf node
-    	if (curr.getLeftChild() == null && curr.getRightChild() == null) {
-    		// Sets the balance factor of the leaf to 0 and then we're done
-    		curr.setBalanceFactor(0);
-    		return;
-    	// If the curr node only has left children
-    	} else if (curr.getLeftChild() != null && curr.getRightChild() == null) {
-    		// Sets bf to the tree size of curr's left child
-    		int bf = getTreeSize(curr.getLeftChild());
-    		// If bf is greater or equal to the re-balance threshold,
-    		// the tree isn't balanced
-			if (bf >= rebalanceThreshold) isBalanced = false;
-			// Sets curr's balance factor to bf
-    		curr.setBalanceFactor(bf);
-    		// Resets the balance factors of curr's left descendents
-    		resetBalanceFactors(curr.getLeftChild());
-    	// If curr only has right children
-    	} else if (curr.getLeftChild() == null && curr.getRightChild() != null) {
-    		// Sets bf to the tree size of curr's right child    		
-    		int bf = getTreeSize(curr.getRightChild());
-    		// If bf is greater than or equal to the re-balance threshold,
-    		// the tree isn't 
-			if (bf >= rebalanceThreshold) isBalanced = false;
-    		curr.setBalanceFactor(-1 * bf);
-    		resetBalanceFactors(curr.getRightChild());
-    	} else {
-    		// curr has both children
-    		
-    		int bf = getTreeSize(curr.getLeftChild()) - getTreeSize(curr.getRightChild());
-			if (Math.abs(bf) >= rebalanceThreshold) isBalanced = false;
-    		
-    		curr.setBalanceFactor(bf);
-    		resetBalanceFactors(curr.getLeftChild());
-    		resetBalanceFactors(curr.getRightChild());
-    	}
-    }
+//    private void resetBalanceFactors(BSTNode<K> curr) {
+//    	// If curr is null, we're done
+//    	if (curr == null) return;
+//    	// If both children are null, curr is a leaf node
+//    	if (curr.getLeftChild() == null && curr.getRightChild() == null) {
+//    		// Sets the balance factor of the leaf to 0 and then we're done
+//    		curr.setBalanceFactor(0);
+//    		return;
+//    	// If the curr node only has left children
+//    	} else if (curr.getLeftChild() != null && curr.getRightChild() == null) {
+//    		// Sets bf to the tree size of curr's left child
+//    		int bf = getTreeSize(curr.getLeftChild());
+//    		// If bf is greater or equal to the re-balance threshold,
+//    		// the tree isn't balanced
+//			if (bf >= rebalanceThreshold) isBalanced = false;
+//			// Sets curr's balance factor to bf
+//    		curr.setBalanceFactor(bf);
+//    		// Resets the balance factors of curr's left descendents
+//    		resetBalanceFactors(curr.getLeftChild());
+//    	// If curr only has right children
+//    	} else if (curr.getLeftChild() == null && curr.getRightChild() != null) {
+//    		// Sets bf to the tree size of curr's right child    		
+//    		int bf = getTreeSize(curr.getRightChild());
+//    		// If bf is greater than or equal to the re-balance threshold,
+//    		// the tree isn't 
+//			if (bf >= rebalanceThreshold) isBalanced = false;
+//    		curr.setBalanceFactor(-1 * bf);
+//    		resetBalanceFactors(curr.getRightChild());
+//    	} else {
+//    		// curr has both children
+//    		
+//    		int bf = getTreeSize(curr.getLeftChild()) - getTreeSize(curr.getRightChild());
+//			if (Math.abs(bf) >= rebalanceThreshold) isBalanced = false;
+//    		
+//    		curr.setBalanceFactor(bf);
+//    		resetBalanceFactors(curr.getLeftChild());
+//    		resetBalanceFactors(curr.getRightChild());
+//    	}
+//    }
 
     /**
      * A method to return the size of the tree under a certain node, including
@@ -182,14 +188,14 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      * @param curr The node we're currently at to determine its tree size.
      * @return The number of nodes in curr's subtree
      */
-    private int getTreeSize(BSTNode<K> curr){
-    	// If curr isn't at a node, return 0
-    	if (curr == null) return 0;
-    	// Return 1 + the left child's tree size + the right child's tree size
-    	return 1 + 
-    			getTreeSize(curr.getLeftChild()) + 
-    			getTreeSize(curr.getRightChild());    	
-    }
+//    private int getTreeSize(BSTNode<K> curr){
+//    	// If curr isn't at a node, return 0
+//    	if (curr == null) return 0;
+//    	// Return 1 + the left child's tree size + the right child's tree size
+//    	return 1 + 
+//    			getTreeSize(curr.getLeftChild()) + 
+//    			getTreeSize(curr.getRightChild());    	
+//    }
     /**
      * Rebalances the tree by:
      * 1. Copying all keys in the BST in sorted order into an array.
@@ -209,8 +215,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
         }
         // Sets root to the new BST that's created
         root = sortedArrayToBST(keys, 0, numKeys - 1);
+        
         // Resets the balance factors for the tree
-    	resetBalanceFactors(root);
+    	// resetBalanceFactors(root);
     	// Shows the tree is balanced
     	isBalanced = true;
     }
@@ -234,12 +241,24 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
 	}
     
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop, int currHeight) {
-    	// If start got to a point where it's less than stop, returns nothing
+    	// If start got to a point where it's less than stop, returns nothing  	
     	if (start > stop) return null;
     	// mid is set to the middle of start and stop
 		int mid = (stop + start) / 2;
 		// Creates a new node with keys at mid's data
 		BSTNode<K> node = new BSTNode<K>(keys[mid]);
+		if (mid > start) {
+			// node has left children
+			node.setBalanceFactor(1);
+		}
+		// TODO - >=?
+		if (stop > mid) {
+			// node has right children
+			node.setBalanceFactor(node.getBalanceFactor() - 1);
+		}
+		
+		
+		
 		// Sets the new node's height
 		node.setHeight(currHeight);
 		// Sets its left and right children using recursion
@@ -317,7 +336,7 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      */
     private void addToList(K minValue, K maxValue, BSTNode<K> parent, List<K> subSetList) {
     	
-    	if (parent.getLeftChild() != null && parent.getLeftChild().getKey().compareTo(minValue) > 0) {
+    	if (parent.getLeftChild() != null && parent.getLeftChild().getKey().compareTo(minValue) >= 0) {
     		addToList(minValue, maxValue, parent.getLeftChild(), subSetList);
     	}
     	
