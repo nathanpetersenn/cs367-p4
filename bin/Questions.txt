@@ -35,11 +35,11 @@ RBTree - O(log N)
 ArrayList, Binary Search Tree, Binary Search Tree with a small positive
 rebalance factor(e.g 2) and RBTree? Assume the range is small.
 
-Answer: for looking on interval [a, b):
-ArrayList - O(N) 
-Binary Search Tree - O(N)
-Binary Search Tree w/Small Rebalance Factor - O(log N)
-RBTree - O(log N)
+Answer: for looking on interval with K elements:
+ArrayList - O(K * N) 
+Binary Search Tree - O(K * N)
+Binary Search Tree w/Small Rebalance Factor - O(K * log N)
+RBTree - O(K * log N)
 
 For questions 4 - 6, you should use the Evaluator program as written.
 

@@ -113,13 +113,15 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	// increasing parent's balance factor by 1
     	} else if (parent.getKey().compareTo(key) > 0) {
     		parent.setBalanceFactor(parent.getBalanceFactor()+1);
-    		if (Math.abs(parent.getBalanceFactor()) >= rebalanceThreshold){
+    		parent.setHeight(parent.getHeight()+1);
+    		
+    		if (Math.abs(parent.getBalanceFactor()) > rebalanceThreshold){
     			isBalanced = false;
     		}
     		// If parent's left child is null, creates a new node and adds it
     		if (parent.getLeftChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
-    			n.setHeight(parent.getHeight() + 1);
+    			n.setHeight(1);
     			parent.setLeftChild(n);
     			numKeys++;
     		// If parent's left child isn't null,
@@ -131,13 +133,15 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
     	// decreasing parent's balance factor by 1 along the way
     	} else if (parent.getKey().compareTo(key) < 0) {
     		parent.setBalanceFactor(parent.getBalanceFactor()-1);
-    		if (Math.abs(parent.getBalanceFactor()) >= rebalanceThreshold){
+    		parent.setHeight(parent.getHeight()+1);
+    		
+    		if (Math.abs(parent.getBalanceFactor()) > rebalanceThreshold){
     			isBalanced = false;
     		}
     		// If parent's right child is null, creates a new node and adds it
     		if (parent.getRightChild() == null) {
     			BSTNode<K> n = new BSTNode<K>(key);
-    			n.setHeight(parent.getHeight() + 1);
+    			n.setHeight(1);
     			parent.setRightChild(n);
     			numKeys++;
     		// If parent's right child isn't null,
@@ -183,7 +187,9 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
      */
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop) {
     	// Returns private companion sortedArrayToBST method
-    	return sortedArrayToBST(keys, start, stop, 1);
+    	
+    	int rootHeight = (int)Math.ceil(Math.log(keys.length) / Math.log(2));
+    	return sortedArrayToBST(keys, start, stop, rootHeight);
 	}
     
     private BSTNode<K> sortedArrayToBST(K[] keys, int start, int stop, int currHeight) {
@@ -202,9 +208,11 @@ public class BSTreeSetTester <K extends Comparable<K>> implements SetTesterADT<K
 		}
 		// Sets the new node's height
 		node.setHeight(currHeight);
+		
+		int c = currHeight - 1;
 		// Sets its left and right children using recursion
-		node.setLeftChild(sortedArrayToBST(keys, start, mid-1, currHeight+1));
-		node.setRightChild(sortedArrayToBST(keys, mid+1, stop, currHeight+1));
+		node.setRightChild(sortedArrayToBST(keys, mid+1, stop, c));
+		node.setLeftChild(sortedArrayToBST(keys, start, mid-1, c));
 		return node;
     }
 
